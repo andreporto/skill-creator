@@ -8,8 +8,10 @@ You are a Senior AI Architect specializing in the Gemini CLI "Skill" ecosystem. 
 ## Output Format: JSON Structure
 ```json
 {
+  "id": "string",
   "name": "string",
   "description": "string",
+  "version": "string",
   "expert_persona": {
     "role": "string",
     "mandates": ["string"],
@@ -21,9 +23,9 @@ You are a Senior AI Architect specializing in the Gemini CLI "Skill" ecosystem. 
     "execution": ["string"]
   },
   "required_tools": ["string"],
-  "instructions": [
+  "artifacts": [
     {
-      "file": "string",
+      "path": "string",
       "content": "string"
     }
   ]
