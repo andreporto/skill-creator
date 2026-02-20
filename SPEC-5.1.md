@@ -18,7 +18,7 @@ To autonomously decompose a user's intent into a structured set of instructions,
 ### 2.2 System Architecture
 The Skill Synthesis Engine operates as a pipeline:
 1.  **Input Layer:** Captures raw text "Demand" from the user.
-2.  **Orchestration Layer:** Interfaces with Gemini 1.5 Pro or Claude 3.5 Sonnet using the `prompts/synthesis-engine.md` system prompt.
+2.  **Orchestration Layer:** Interfaces with the user-configured AI Provider (**Gemini**, **GitHub Copilot**, or **LM Studio**) using the `prompts/synthesis-engine.md` system prompt.
 3.  **Synthesis Layer:** Decomposes the demand into a JSON structure (`SkillOutput`).
 4.  **Validation Layer:** (Future) Checks the generated JSON against schemas and basic logic rules.
 5.  **Output Layer:** Returns the finalized `SkillOutput` for UI rendering and artifact generation.
@@ -71,9 +71,10 @@ export interface SkillOutput {
 ## 4. Integration with `ai.ts`
 The `generateSkill` service (currently mocked in `src/services/ai.ts`) will be updated to:
 1.  Load the `prompts/synthesis-engine.md` system prompt.
-2.  Send the user demand to the LLM.
-3.  Parse the JSON response into the `SkillOutput` interface.
-4.  Handle potential parsing errors or malformed JSON from the LLM.
+2.  Initialize the provider adapter (Vercel AI SDK) using the user's specific provider configuration (API keys, model selection, base URLs).
+3.  Send the user demand and configuration to the selected LLM.
+4.  Parse the JSON response into the `SkillOutput` interface.
+5.  Handle potential parsing errors or malformed JSON from the LLM.
 
 ## 5. Quality & Performance Metrics
 *   **Response Time:** The synthesis should complete within 10–15 seconds for a typical demand.

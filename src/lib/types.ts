@@ -1,3 +1,12 @@
+export type AIProvider = 'gemini' | 'copilot' | 'lm-studio';
+
+export interface AIConfig {
+  provider: AIProvider;
+  apiKey?: string;
+  baseUrl?: string;
+  model: string;
+}
+
 export interface SkillArtifact {
   path: string;    // Relative path within the skill directory
   content: string; // Markdown or JSON content

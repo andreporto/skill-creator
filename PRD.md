@@ -31,16 +31,19 @@ This leads to inconsistent skill quality and slows down the adoption of agentic 
 ## 5. Functional Requirements
 
 ### 5.1 Skill Synthesis Engine (Core)
+*   **Multi-Provider Support:** Ability to switch between different AI backends including Gemini, Copilot (GitHub Models), and LM Studio (Local).
+*   **Provider Configuration:** User-defined settings for API keys, base URLs (for local instances), and model selection per provider.
 *   **Input:** High-level text demand (e.g., "I need a skill that can audit my Dockerfiles for security best practices").
 *   **Architecture Mapping:** The AI must identify necessary tools (shell, web search, file read) and resources.
 *   **Persona Generation:** Creation of a "Expert Persona" with specific mandates and constraints.
 
-### 5.2 Artifact Generation
+### 5.2 Artifact Generation & Export
 The app must generate a directory structure containing:
 *   `SKILL.md`: The primary entry point (Description, Location, Capabilities).
 *   `instructions/`: Modularized markdown files for specific sub-tasks.
 *   `tools/`: JSON/YAML schemas for any required custom tool definitions.
 *   `examples/`: Sample input/output pairs for few-shot prompting.
+*   **Export Options:** Users must be able to download the result as a single aggregated Markdown file (for quick sharing/reference) or a ZIP archive (for full installation).
 
 ### 5.3 Interactive Refinement
 *   **The "Diff" View:** Users can see changes between generation iterations.
@@ -51,10 +54,15 @@ The app must generate a directory structure containing:
 ### 6.1 Tech Stack
 *   **Frontend:** React (Next.js) with Vanilla CSS for a minimalist, developer-centric UI.
 *   **Backend:** Node.js (TypeScript) for seamless integration with existing CLI logic.
-*   **LLM Orchestration:** LangChain or Vercel AI SDK, utilizing **Gemini 1.5 Pro** for large context analysis and **Claude 3.5 Sonnet** for high-precision instruction drafting.
+*   **LLM Orchestration:** Vercel AI SDK (for its multi-provider adapter support).
+*   **AI Providers:** 
+    *   **Gemini:** 1.5 Pro/Flash for large context analysis and multimodal capabilities.
+    *   **GitHub Copilot:** Integration for high-precision coding assistance.
+    *   **LM Studio:** Local OpenAI-compatible API for offline, private, and zero-latency generation.
 
 ### 6.2 Data Security
-*   **Local-First Option:** Support for running the creator against local file structures without uploading codebase context to the cloud (using local embeddings).
+*   **Local-First Option:** Full support for LM Studio to ensure no codebase context or prompts leave the developer's machine.
+*   **Configurable Providers:** Users can granularly choose which provider to use for specific tasks (e.g., Local for drafting, Cloud for final refining).
 *   **Secret Scrubbing:** Automated detection and removal of API keys/secrets from generated instructions.
 
 ## 7. User Experience (UX) Flow
@@ -62,7 +70,7 @@ The app must generate a directory structure containing:
 2.  **Analysis:** The app displays a "Thinking" state, showing the inferred goals, tools, and constraints.
 3.  **Draft:** A side-by-side view of the generated `SKILL.md` and `Instructions`.
 4.  **Edit/Iterate:** User modifies via chat or direct text editing.
-5.  **Export:** One-click "Install to Gemini CLI" or "Download ZIP".
+5.  **Export:** One-click "Install to Gemini CLI", "Download ZIP", or "Download as Markdown".
 
 ## 8. Success Metrics (KPIs)
 *   **Synthesis Success Rate:** % of generated skills that run without syntax errors in the target CLI.

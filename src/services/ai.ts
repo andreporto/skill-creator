@@ -1,9 +1,11 @@
-import { SkillOutput } from '@/lib/types';
+import { SkillOutput, AIConfig } from '@/lib/types';
 
-export const generateSkill = async (demand: string): Promise<SkillOutput> => {
-  // In a real implementation, this would call an API route that interacts with an LLM.
+export const generateSkill = async (demand: string, config: AIConfig): Promise<SkillOutput> => {
+  // In a real implementation, this would call an API route that interacts with the selected LLM provider.
   // We'll simulate the delay here.
   await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  console.log(`Generating skill with provider: ${config.provider}, model: ${config.model}`);
 
   return {
     id: "audit-expert",
