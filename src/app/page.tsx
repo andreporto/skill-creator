@@ -78,11 +78,11 @@ export default function Home() {
 
             <div className={styles.previewPanel}>
               <div className={styles.label}>Generated Artifacts</div>
-              {skill.instructions.map((inst, i) => (
+              {skill.artifacts.map((artifact, i) => (
                 <div key={i} style={{ marginBottom: '1rem' }}>
-                  <div className={styles.label} style={{ fontSize: '0.65rem' }}>{inst.file}</div>
+                  <div className={styles.label} style={{ fontSize: '0.65rem' }}>{artifact.path}</div>
                   <pre className={styles.codeBlock}>
-                    {inst.content}
+                    {artifact.content}
                   </pre>
                 </div>
               ))}

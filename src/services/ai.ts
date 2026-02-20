@@ -6,7 +6,9 @@ export const generateSkill = async (demand: string): Promise<SkillOutput> => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
   return {
+    id: "audit-expert",
     name: "Audit Expert",
+    version: "1.0.0",
     description: `A skill generated for: ${demand}`,
     expert_persona: {
       role: "Senior Security Architect",
@@ -25,17 +27,22 @@ export const generateSkill = async (demand: string): Promise<SkillOutput> => {
       execution: ["Apply security patches", "Generate audit report"]
     },
     required_tools: ["grep_search", "read_file", "run_shell_command"],
-    instructions: [
+    artifacts: [
       {
-        file: "SKILL.md",
-        content: `# Audit Expert
-
-Automated security auditing skill...`
+        path: "SKILL.md",
+        content: `# Audit Expert\n\nAutomated security auditing skill...`
       },
       {
-        file: "instructions/audit.md",
-        content: `## Step 1: Initialize audit...
-## Step 2: Validate signatures...`
+        path: "instructions/research.md",
+        content: `## Research Phase\n\nAnalyze existing codebase for security vulnerabilities...`
+      },
+      {
+        path: "instructions/execution.md",
+        content: `## Execution Phase\n\nApply patches and update security protocols...`
+      },
+      {
+        path: "instructions/validation.md",
+        content: `## Validation Phase\n\nRun security scans and verify patches...`
       }
     ]
   };
