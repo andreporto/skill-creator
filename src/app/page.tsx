@@ -2,26 +2,33 @@
 
 import { useState } from 'react';
 import styles from './page.module.css';
-import { SkillOutput } from '@/lib/types';
+import { SkillOutput, AIProvider } from '@/lib/types';
 import { generateSkill } from '@/services/ai';
 
 export default function Home() {
   const [demand, setDemand] = useState('');
+  const [provider, setProvider] = useState<AIProvider>('gemini');
   const [isGenerating, setIsGenerating] = useState(false);
   const [skill, setSkill] = useState<SkillOutput | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     if (!demand.trim()) return;
 
     setIsGenerating(true);
     setSkill(null);
+    setError(null);
 
     try {
-      const result = await generateSkill(demand);
+      // For now we use the default config for each provider
+      const result = await generateSkill(demand, { 
+        provider, 
+        model: provider === 'gemini' ? 'gemini-1.5-pro' : 'model-identifier'
+      });
       setSkill(result);
-    } catch (error) {
-      console.error('Failed to generate skill:', error);
-      // Handle error in UI
+    } catch (err) {
+      console.error('Failed to generate skill:', err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please check your provider configuration and try again.');
     } finally {
       setIsGenerating(false);
     }
@@ -36,6 +43,26 @@ export default function Home() {
 
       <main className={styles.main}>
         <section className={styles.inputSection}>
+          <div className={styles.label}>Provider</div>
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+            {(['gemini', 'lm-studio', 'copilot'] as const).map((p) => (
+              <button
+                key={p}
+                className={`${styles.button} ${provider === p ? styles.active : ''}`}
+                style={{ 
+                  flex: 1, 
+                  backgroundColor: provider === p ? '#333' : '#111',
+                  border: '1px solid #333',
+                  padding: '0.5rem',
+                  fontSize: '0.75rem'
+                }}
+                onClick={() => setProvider(p)}
+                disabled={isGenerating}
+              >
+                {p.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <div className={styles.label}>Describe your Skill Demand</div>
           <textarea
             className={styles.textarea}
@@ -52,6 +79,7 @@ export default function Home() {
             {isGenerating ? 'Synthesizing...' : 'Generate Skill Artifacts'}
           </button>
           {isGenerating && <div className={styles.thinking}>Decomposing intent into architectural components...</div>}
+          {error && <div className={styles.error} style={{ color: '#ff4444', marginTop: '1rem', fontSize: '0.85rem' }}>{error}</div>}
         </section>
 
         {skill && (
