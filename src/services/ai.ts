@@ -1,4 +1,4 @@
-import { SkillOutput, AIConfig } from '@/lib/types';
+import { SkillOutput, AIConfig, SkillArtifact } from '@/lib/types';
 
 export const generateSkill = async (demand: string, config: AIConfig): Promise<SkillOutput> => {
   // In a real implementation, this would call an API route that interacts with the selected LLM provider.
@@ -48,4 +48,27 @@ export const generateSkill = async (demand: string, config: AIConfig): Promise<S
       }
     ]
   };
+};
+
+export const refineSkill = async (previousSkill: SkillOutput, directive: string, config: AIConfig): Promise<SkillOutput> => {
+  // Simulate AI delay
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  console.log(`Refining skill with provider: ${config.provider}, model: ${config.model}`);
+  console.log(`Directive: ${directive}`);
+
+  // Create a deep copy to simulate refinement
+  const refinedSkill = JSON.parse(JSON.stringify(previousSkill));
+  
+  // Simulate a change by adding the directive to the description and mandates
+  refinedSkill.description += ` (Refined: ${directive})`;
+  refinedSkill.expert_persona.mandates.push(`Refinement: ${directive}`);
+  
+  // Update SKILL.md artifact to show change
+  const skillMd = refinedSkill.artifacts.find((a: SkillArtifact) => a.path === "SKILL.md");
+  if (skillMd) {
+    skillMd.content += `\n\n### Refinement\n- ${directive}`;
+  }
+
+  return refinedSkill;
 };

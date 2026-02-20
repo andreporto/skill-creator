@@ -30,3 +30,14 @@ export interface SkillOutput {
   required_tools: string[];
   artifacts: SkillArtifact[];
 }
+
+export interface Iteration {
+  directive: string; // The prompt used to refine (empty for first gen)
+  output: SkillOutput;
+  timestamp: number;
+}
+
+export interface RefinementHistory {
+  iterations: Iteration[];
+  currentIndex: number;
+}
