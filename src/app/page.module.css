@@ -81,16 +81,128 @@
 
 .resultsSection {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 2rem;
   border-top: 1px solid var(--border);
   padding-top: 2rem;
 }
 
-.previewPanel {
+.artifactBrowser {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 600px;
+}
+
+.sidebar {
+  background: rgba(0, 0, 0, 0.02);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.fileList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fileItem {
+  font-size: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.fileItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--foreground);
+}
+
+.activeFile {
+  background: var(--accent);
+  color: white !important;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.secondaryButton {
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.secondaryButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.contentViewer {
+  padding: 1rem;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  background: white;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.metaPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.metaBox {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.875rem;
+}
+
+.metaBox ul {
+  margin: 0.5rem 0 0 1.25rem;
+  padding: 0;
+}
+
+.metaBox li {
+  margin-bottom: 0.25rem;
+}
+
+.workflowStep {
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
 }
 
 .codeBlock {
@@ -101,6 +213,7 @@
   font-size: 0.875rem;
   overflow-x: auto;
   white-space: pre-wrap;
+  margin: 0;
 }
 
 .label {
